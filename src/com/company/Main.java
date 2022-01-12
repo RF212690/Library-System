@@ -3,7 +3,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.NoSuchElementException;
@@ -40,7 +39,7 @@ public class Main {
             }else if(function.equalsIgnoreCase("S")){
                 int position=searchDetails();
                 String info=getInput("Insert the info of the book that you want to find");
-                String details=bookdetailsFile(booksFile,position,info);
+                ArrayList<String> details=bookdetailsFile(booksFile,position,info);
             }else{
                 System.out.println("Invalid Input");
 
@@ -63,20 +62,19 @@ public class Main {
             System.out.println("Not a valid search method");
         }
     }
-    public static String bookdetailsFile(File file,Integer position, String input){
+    public static ArrayList bookdetailsFile(File file,Integer position, String input){
         Scanner books=new Scanner(file.getName());
-        //make arraylist of all books found, finsih
-        while(books.hasNext()){
-
-        }
-        try {
-            for (int i = 0; i < 1; i++) {
+        ArrayList<String> booksFound= new ArrayList<>();
+        while(books.hasNextLine()){
+            String[] bookInfo=books.nextLine().split(",");
+            if(bookInfo[position].equalsIgnoreCase(input)){
+                booksFound.add(bookInfo.toString());
 
             }
-        }catch(Exception e){
-            System.out.println("Error: "+e);
         }
-        return "";
+        if(booksFound.isEmpty()){
+            booksFound.add("book not found");}
+        return booksFound;
     }
     public static String BookdetailsUSER(){
         String inputs="";
@@ -99,15 +97,6 @@ public class Main {
             System.exit(0);
         }
         return Input;
-    }
-    public static void removecontent(File file){
-        try{
-            FileWriter myWriter= new FileWriter(file.getName(),false);
-            myWriter.write("");
-            myWriter.close();
-        }catch(IOException e){
-            System.out.println("An error occurred: "+e);
-        }
     }
     public static void filewriter(File file,String input){
         try{
