@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 // hash passwords
+//fix booksDetailsFile function
 public class Main {
     public static void main(String[] args) {
         boolean checker= false;
@@ -84,16 +85,17 @@ public class Main {
     public static ArrayList bookDetailsFile(File file, Integer position, String input){
         Scanner books=new Scanner(file.getName());
         ArrayList<String> booksFound= new ArrayList<>();
-
+        books.next();
+        //not working, doesn't look through the file
         while(books.hasNextLine()){
             String[] bookInfo=books.nextLine().split("---");
+            System.out.println(bookInfo[0]);
             if(bookInfo[position].equalsIgnoreCase(input)){
                 String book=bookInfo[0];
                 for (int i = 1; i < bookInfo.length; i++) {
                     book=book+", "+bookInfo[i];
                 }
                 booksFound.add(book);
-
             }
         }
         if(booksFound.isEmpty()){
