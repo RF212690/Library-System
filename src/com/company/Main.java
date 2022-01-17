@@ -1,9 +1,6 @@
 package com.company;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -58,6 +55,23 @@ public class Main {
         }
     }
 
+    public static void deleteBook(File file,String book){
+        File tempFile= new File("tempFile.txt");
+        createFile(tempFile);
+        try{
+        Scanner books= new Scanner(file);
+        while(books.hasNextLine()){
+            String tempBook =books.nextLine();
+            if(!book.equals(tempBook)){
+            fileWriter(tempFile,book);}
+        }
+        tempFile.renameTo(file);
+        file.delete();
+        }catch(FileNotFoundException e){
+            System.out.println("Error: "+e);
+        }
+    }
+
     public static String borrow(File file, String book) {
         try {
             String new_info="";
@@ -70,6 +84,8 @@ public class Main {
                         new_info=new_info+bookInfo[i]+"---";
                     }
                     new_info=new_info+"borrowed";
+                    deleteBook(file,book);
+                    fileWriter(file,new_info);
                     //edit book in file to say borrowed by making a general book editor
                     return "book borrowed";
                 }
